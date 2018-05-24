@@ -1,0 +1,44 @@
+apply plugin: 'java'
+//apply plugin: 'spring-boot'
+
+ext {
+    springBootVersion = '2.0.1.RELEASE'
+}
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+buildscript {
+    ext {
+        springBootVersion = '2.0.1.RELEASE'
+        springCloudServicesVersion = '2.0.0.M1'
+        springCloudVersion = 'Finchley.RC1'
+    }
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath("org.springframework.boot:spring-boot-autoconfigure:${springBootVersion}")
+    }
+}
+
+dependencies {
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: "${springBootVersion}"
+    compile group: 'org.springframework.boot', name: 'spring-boot-autoconfigure', version: "${springBootVersion}"
+
+    compile 'io.github.openfeign:feign-core:9.3.1'
+    compile group: 'com.netflix.feign', name: 'feign-jackson', version: '8.0.0'
+
+    compile('org.springframework.cloud:spring-cloud-netflix-core:1.2.6.RELEASE') {
+        exclude group: 'org.springframework.cloud'
+    }
+
+
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+    testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: "${springBootVersion}"
+
+}
+
