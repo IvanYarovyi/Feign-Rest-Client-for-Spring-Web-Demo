@@ -13,6 +13,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.Arrays;
+
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 
@@ -39,21 +41,35 @@ public class ClientApplicationExampleTest {
     private UserApi restClient;
 
     @Test
-    public void restClientTest(){
+    public void getIntGetList(){
+        assertThat(restClient.getVersion(), is(100500));
+        assertThat(restClient.getCodes(), is(Arrays.asList("CA", "TX")));
+    }
 
-        System.out.println("List: " + restClient.getCodes());
-        System.out.println("Int :" + restClient.getVersion());
+    @Test
+    public void getWithTwoParams() {
+        User actual = restClient.setUserAge(10, 44);
+        System.out.println("Update by two params: "+ actual);
+        assertThat(actual.getId(), is(10));
+        assertThat(actual.getAge(), is(44));
+    }
 
+    @Test
+    public void getWithParam() {
+        User actualResponse = restClient.getUser(100);
+        System.out.println("Get by path var" + actualResponse);
+        assertThat("Response is correct", actualResponse.getName(), is("User Name"));
+        assertThat("Response is correct", actualResponse.getId(), is(100));
+    }
+
+    @Test
+    public void post() {
         User user = new User();
         user.setName("Ivan");
         user.setAge(50);
-        System.out.println("Pojo :" + restClient.newUser(user));
-
-        User actualResponse = restClient.getUser(100);
-        System.out.println("Get by path var" + actualResponse);
-
-        assertThat("Response is correct", actualResponse.getName(), is("User Name"));
-        assertThat("Response is correct", actualResponse.getId(), is(100));
+        User user2 = restClient.newUser(user);
+        System.out.println("Test post. :" + user2);
+        assertThat(user2.getAge(), is(50));
     }
 
 }

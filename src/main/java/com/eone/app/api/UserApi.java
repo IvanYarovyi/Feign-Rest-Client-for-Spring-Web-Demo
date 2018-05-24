@@ -19,5 +19,8 @@ public interface UserApi {
     @RequestMapping(method = RequestMethod.GET, value = "/{id}")
     User getUser(@PathVariable("id")/*Feign requires it right here*/ Integer id);
 
+    @RequestMapping(method = RequestMethod.PUT, value = "/{id}/{age}")
+    User setUserAge(@PathVariable("id")/*Feign requires it right here*/ Integer id, @PathVariable("age") Integer age);
+
 }
 

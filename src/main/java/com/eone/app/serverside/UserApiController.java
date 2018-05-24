@@ -34,4 +34,13 @@ public class UserApiController implements UserApi {
         user.setAge(19);
         return user;
     }
+
+    @Override
+    public User setUserAge(@PathVariable Integer id, @PathVariable Integer age) {
+        User user = new User();
+        user.setName("User Name");
+        user.setId(id);
+        user.setAge(age);
+        return user;
+    }
 }
